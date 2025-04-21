@@ -1,0 +1,154 @@
+body {
+  font-family: 'Poppins', sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+.app-wrapper {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f2f2f2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ✅ center horizontally only */
+  }
+
+  .olx-header {
+    width: 100%;
+    background-color: #002f34;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+.olx-logo {
+  height: 45px;
+  margin-bottom: 10px;
+}
+
+.form-container {
+  background-color: white;
+  margin: 60px auto;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 500px;
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #002f34;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: none; /* ⛔ disables user resizing */
+}
+
+h2 {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+input, textarea, label, button {
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #23e5db;
+  color: #002f34;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #02ccc1;
+}
+
+.form-container h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #002f34;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container h2 {
+  /* existing styles above */
+  animation: fadeSlideIn 0.8s ease-in-out;
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(40, 167, 69, 0.85); /* green with transparency */
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  animation: fadeInOut 1.5s ease-in-out forwards;
+  z-index: 9999;
+  opacity: 0;
+  width: auto;
+  max-width: 90%;
+  text-align: center;
+  backdrop-filter: blur(4px); /* slight blur behind for luxury feel */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.olx-footer {
+  width: 100%;
+  background-color: #002f34;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  box-sizing: border-box;
+  position: relative;
+  bottom: 0;
+}
