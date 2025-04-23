@@ -63,6 +63,18 @@ input, textarea {
   resize: none; /* ⛔ disables user resizing */
 }
 
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: white;
+  color: #002f34;
+  font-family: 'Poppins', sans-serif;
+}
+
 h2 {
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -96,6 +108,7 @@ button:hover {
   letter-spacing: 0.5px;
   text-align: center;
   margin-bottom: 20px;
+  animation: fadeSlideIn 0.8s ease-in-out;
 }
 
 .form-container h2 {

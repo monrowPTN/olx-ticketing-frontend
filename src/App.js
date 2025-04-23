@@ -54,35 +54,42 @@ function App() {
   return (
     <div className="app-wrapper">
       <header className="olx-header">
-  <img src="/olx-lebanon-logo.png" alt="OLX Lebanon" className="olx-logo" />
-  <h1>Internal Ticketing System</h1>
-</header>
-  
+        <img src="/olx-lebanon-logo.png" alt="OLX Lebanon" className="olx-logo" />
+        <h1>Internal Ticketing System</h1>
+      </header>
+
       {showMessage && (
         <div className="fade-message">Ticket submitted!</div>
       )}
-  
+
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label>Full Name</label>
           <input name="full_name" onChange={handleChange} required />
-  
+
           <label>Department</label>
           <input name="department" onChange={handleChange} required />
-  
+
           <label>Email</label>
           <input name="email" type="email" onChange={handleChange} required />
-  
-          <label>Subject</label>
-          <input name="subject" onChange={handleChange} />
-  
+
+          <label>Service Type</label>
+<select name="subject" onChange={handleChange} required>
+  <option value="">-- Select Service --</option>
+  <option value="Add Application Access">Add Application Access</option>
+  <option value="Remove Application Access">Remove Application Access</option>
+  <option value="Report a Technical Issue">Report a Technical Issue</option>
+  <option value="Request Equipment">Request Equipment</option>
+  <option value="Other">Other</option>
+</select>
+
           <label>Message</label>
           <textarea name="message" rows="5" onChange={handleChange} required></textarea>
-  
+
           <button type="submit">Submit Ticket</button>
         </form>
       </div>
-  
+
       <footer className="olx-footer">
         <p>Powered by OLX Lebanon © {new Date().getFullYear()}</p>
       </footer>
