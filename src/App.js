@@ -74,14 +74,33 @@ function App() {
           <input name="email" type="email" onChange={handleChange} required />
 
           <label>Service Type</label>
-<select name="subject" onChange={handleChange} required>
-  <option value="">-- Select Service --</option>
-  <option value="Add Application Access">Add Application Access</option>
-  <option value="Remove Application Access">Remove Application Access</option>
-  <option value="Report a Technical Issue">Report a Technical Issue</option>
-  <option value="Request Equipment">Request Equipment</option>
-  <option value="Other">Other</option>
-</select>
+          <select name="subject" onChange={handleChange} required>
+            <option value="">-- Select a Service --</option>
+
+            <optgroup label="Applications">
+              <option value="Clickup">Clickup</option>
+              <option value="MS Office">MS Office</option>
+              <option value="Zendesk">Zendesk</option>
+              <option value="Jarvis">Jarvis</option>
+              <option value="Periscope">Periscope</option>
+              <option value="Tube Screamer Admin Panel">Tube Screamer Admin Panel</option>
+              <option value="MoEngage">MoEngage</option>
+              <option value="Tube Screamer">Tube Screamer</option>
+              <option value="Figma">Figma</option>
+              <option value="BambooHR">BambooHR</option>
+              <option value="SEED">SEED</option>
+            </optgroup>
+
+            <optgroup label="Access & Group Emails">
+              <option value="Sheets Ownership Transfer">Sheets Ownership Transfer</option>
+              <option value="Add to Sales group Email">Add to Sales group Email</option>
+              <option value="Add to Sales Ops Group Email">Add to Sales Ops Group Email</option>
+              <option value="Add to Finance Group Email">Add to Finance Group Email</option>
+              <option value="Add to OLX Group Email">Add to OLX Group Email</option>
+            </optgroup>
+
+            <option value="Other">Other</option>
+          </select>
 
           <label>Message</label>
           <textarea name="message" rows="5" onChange={handleChange} required></textarea>
