@@ -34,13 +34,21 @@ function App() {
 
       const result = await response.json();
       if (result.status === 'success') {
+        setShowMessage(true);
+        setFormData({
+          full_name: '',
+          department: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+
         confetti({
           particleCount: 150,
           spread: 70,
           origin: { y: 0.6 }
         });
 
-        setShowMessage(true);
         setTimeout(() => setShowMessage(false), 3000);
       } else {
         console.error('Error submitting ticket:', result.status);
@@ -59,22 +67,22 @@ function App() {
       </header>
 
       {showMessage && (
-        <div className="fade-message">Ticket submitted!</div>
+        <div className="fade-message">✅ Ticket submitted successfully!</div>
       )}
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label>Full Name</label>
-          <input name="full_name" onChange={handleChange} required />
+          <input name="full_name" value={formData.full_name} onChange={handleChange} required />
 
           <label>Department</label>
-          <input name="department" onChange={handleChange} required />
+          <input name="department" value={formData.department} onChange={handleChange} required />
 
           <label>Email</label>
-          <input name="email" type="email" onChange={handleChange} required />
+          <input name="email" type="email" value={formData.email} onChange={handleChange} required />
 
           <label>Service Type</label>
-          <select name="subject" onChange={handleChange} required>
+          <select name="subject" value={formData.subject} onChange={handleChange} required>
             <option value="">-- Select a Service --</option>
 
             <optgroup label="Applications">
@@ -103,7 +111,13 @@ function App() {
           </select>
 
           <label>Message</label>
-          <textarea name="message" rows="5" onChange={handleChange} required></textarea>
+          <textarea
+            name="message"
+            rows="5"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></textarea>
 
           <button type="submit">Submit Ticket</button>
         </form>
