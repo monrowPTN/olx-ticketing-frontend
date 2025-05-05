@@ -79,9 +79,13 @@ function App() {
           <select name="department" value={formData.department} onChange={handleChange} required>
             <option value="">-- Select Department --</option>
             <option value="HR">HR</option>
-            <option value="Tech">Tech</option>
+            <option value="Analytics">Analytics</option>
             <option value="Sales">Sales</option>
+            <option value="CS">CS</option>
+            <option value="Sales Ops">Sales Ops</option>
             <option value="Marketing">Marketing</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Strategy and Growth">Strategy and Growth</option>
             <option value="Finance">Finance</option>
           </select>
 
