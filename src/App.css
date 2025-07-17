@@ -96,12 +96,6 @@ button {
   transition: 0.3s;
 }
 
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
 button:hover {
   background-color: #02ccc1;
 }
@@ -135,23 +129,23 @@ button:hover {
 
 .fade-message {
   position: fixed;
-  top: 20%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(to right, #23e5db, #02ccc1);
-  color: #ffffff;
-  padding: 25px 50px;
-  border-radius: 12px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  animation: fadeInOut 1.8s ease-in-out forwards;
+  background: rgba(40, 167, 69, 0.85); /* green with transparency */
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  animation: fadeInOut 1.5s ease-in-out forwards;
   z-index: 9999;
   opacity: 0;
-  letter-spacing: 0.5px;
-  backdrop-filter: blur(5px);
-  border: 1px solid #e0f7f5;
+  width: auto;
+  max-width: 90%;
+  text-align: center;
+  backdrop-filter: blur(4px); /* slight blur behind for luxury feel */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes fadeInOut {

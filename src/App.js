@@ -11,56 +11,53 @@ function App() {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch('https://internal-ticketing-system.onrender.com/tickets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-
-    if (!response.ok) {
-      setIsSubmitting(false);
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.status || response.statusText || 'Unknown error');
-    }
-
-    const result = await response.json();
-    if (result.message === 'Ticket created') {
-      setShowMessage(true);
-      setFormData({
-        full_name: '',
-        department: '',
-        email: '',
-        subject: '',
-        message: ''
+    try {
+      const response = await fetch('https://internal-ticketing-system.onrender.com/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
       });
 
-      confetti({
-        particleCount: 150,
-        spread: 70,
-        origin: { y: 0.6 }
-      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.status || 'Unknown error');
+      }
 
-      setIsSubmitting(false);
+      const result = await response.json();
+      if (result.status === 'success') {
+        setShowMessage(true);
+        setFormData({
+          full_name: '',
+          department: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
 
-      setTimeout(() => setShowMessage(false), 3000);
-    } else {
-      console.error('Error submitting ticket:', result.status);
-      setIsSubmitting(false);
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+
+        setTimeout(() => setShowMessage(false), 3000);
+      } else {
+        console.error('Error submitting ticket:', result.status);
+      }
+    } catch (error) {
+      console.error('Submission failed:', error);
+      alert(`ERROR: ${error.message}`);
     }
-  } catch (error) {
-    setIsSubmitting(false);
-    console.error('Submission failed:', error);
-    alert(`ERROR: ${error.message}`);
-  }
-};
+  };
 
   return (
     <div className="app-wrapper">
@@ -134,9 +131,7 @@ const handleSubmit = async (e) => {
             required
           ></textarea>
 
-<button type="submit" disabled={isSubmitting}>
-  {isSubmitting ? 'Submitting...' : 'Submit Ticket'}
-</button>
+          <button type="submit">Submit Ticket</button>
         </form>
       </div>
 
