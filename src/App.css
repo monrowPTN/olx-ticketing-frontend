@@ -96,6 +96,12 @@ button {
   transition: 0.3s;
 }
 
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 button:hover {
   background-color: #02ccc1;
 }

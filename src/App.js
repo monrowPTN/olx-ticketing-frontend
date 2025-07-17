@@ -11,50 +11,56 @@ function App() {
     message: ''
   });
 
-  const [showMessage, setShowMessage] = useState(false);
-  const [ticketId, setTicketId] = useState(null); // ✅ Add state for ticket ID
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log("Form Update:", e.target.name, e.target.value); // ✅ Log changes
-  };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  setIsSubmitting(true);
 
-    console.log("🟡 Submitting form with data:", formData); // ✅ Log full form data
+  try {
+    const response = await fetch('https://internal-ticketing-system.onrender.com/tickets', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
 
-    try {
-      const response = await fetch('https://internal-ticketing-system.onrender.com/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+    if (!response.ok) {
+      setIsSubmitting(false);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.status || response.statusText || 'Unknown error');
+    }
+
+    const result = await response.json();
+    if (result.message === 'Ticket created') {
+      setShowMessage(true);
+      setFormData({
+        full_name: '',
+        department: '',
+        email: '',
+        subject: '',
+        message: ''
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.status || 'Unknown error');
-      }
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
 
-      const result = await response.json();
-      if (result.status === 'success') {
-        setTicketId(result.ticket_id); // ✅ Capture ticket ID from backend
-        confetti({
-          particleCount: 150,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
+      setIsSubmitting(false);
 
-        setShowMessage(true);
-        setTimeout(() => setShowMessage(false), 3000);
-      } else {
-        console.error('Error submitting ticket:', result.status);
-      }
-    } catch (error) {
-      console.error('Submission failed:', error);
-      alert(`ERROR: ${error.message}`);
+      setTimeout(() => setShowMessage(false), 3000);
+    } else {
+      console.error('Error submitting ticket:', result.status);
+      setIsSubmitting(false);
     }
-  };
+  } catch (error) {
+    setIsSubmitting(false);
+    console.error('Submission failed:', error);
+    alert(`ERROR: ${error.message}`);
+  }
+};
 
   return (
     <div className="app-wrapper">
@@ -64,52 +70,33 @@ function App() {
       </header>
 
       {showMessage && (
-        <div className="fade-message">
-          ✅ Ticket #{ticketId} submitted successfully!
-        </div>
+        <div className="fade-message">✅ Ticket submitted successfully!</div>
       )}
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label>Full Name</label>
-          <input
-            name="full_name"
-            onChange={handleChange}
-            value={formData.full_name}
-            required
-          />
+          <input name="full_name" value={formData.full_name} onChange={handleChange} required />
 
-<label htmlFor="department">Department</label>
-<select
-  name="department"
-  value={formData.department}
-  onChange={handleChange}
-  required
->
-  <option value="">-- Select Department --</option>
-  <option value="HR">HR</option>
-  <option value="Tech">Tech</option>
-  <option value="Sales">Sales</option>
-  <option value="Marketing">Marketing</option>
-  <option value="Finance">Finance</option>
-</select>
+          <label>Department</label>
+          <select name="department" value={formData.department} onChange={handleChange} required>
+            <option value="">-- Select Department --</option>
+            <option value="HR">HR</option>
+            <option value="Analytics">Analytics</option>
+            <option value="Sales">Sales</option>
+            <option value="CS">CS</option>
+            <option value="Sales Ops">Sales Ops</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Strategy and Growth">Strategy and Growth</option>
+            <option value="Finance">Finance</option>
+          </select>
 
           <label>Email</label>
-          <input
-            name="email"
-            type="email"
-            onChange={handleChange}
-            value={formData.email}
-            required
-          />
+          <input name="email" type="email" value={formData.email} onChange={handleChange} required />
 
           <label>Service Type</label>
-          <select
-            name="subject"
-            onChange={handleChange}
-            value={formData.subject}
-            required
-          >
+          <select name="subject" value={formData.subject} onChange={handleChange} required>
             <option value="">-- Select a Service --</option>
 
             <optgroup label="Applications">
@@ -117,6 +104,7 @@ function App() {
               <option value="MS Office">MS Office</option>
               <option value="Zendesk">Zendesk</option>
               <option value="Jarvis">Jarvis</option>
+              <option value="Slack">Slack</option>
               <option value="Periscope">Periscope</option>
               <option value="Tube Screamer Admin Panel">Tube Screamer Admin Panel</option>
               <option value="MoEngage">MoEngage</option>
@@ -128,7 +116,7 @@ function App() {
 
             <optgroup label="Access & Group Emails">
               <option value="Sheets Ownership Transfer">Sheets Ownership Transfer</option>
-              <option value="Add to Sales Group Email">Add to Sales Group Email</option>
+              <option value="Add to Sales group Email">Add to Sales group Email</option>
               <option value="Add to Sales Ops Group Email">Add to Sales Ops Group Email</option>
               <option value="Add to Finance Group Email">Add to Finance Group Email</option>
               <option value="Add to OLX Group Email">Add to OLX Group Email</option>
@@ -141,12 +129,14 @@ function App() {
           <textarea
             name="message"
             rows="5"
-            onChange={handleChange}
             value={formData.message}
+            onChange={handleChange}
             required
           ></textarea>
 
-          <button type="submit">Submit Ticket</button>
+<button type="submit" disabled={isSubmitting}>
+  {isSubmitting ? 'Submitting...' : 'Submit Ticket'}
+</button>
         </form>
       </div>
 
