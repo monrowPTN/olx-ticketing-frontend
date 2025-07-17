@@ -12,6 +12,11 @@ function App() {
   });
 
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
