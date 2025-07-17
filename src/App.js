@@ -37,7 +37,7 @@ const handleSubmit = async (e) => {
     }
 
     const result = await response.json();
-    if (result.message === 'Ticket created') {
+    if (result.status === 'success') {
       setShowMessage(true);
       setFormData({
         full_name: '',
