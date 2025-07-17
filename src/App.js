@@ -12,16 +12,20 @@ function App() {
   });
 
   const [showMessage, setShowMessage] = useState(false);
+  const [ticketId, setTicketId] = useState(null); // ✅ Add state for ticket ID
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log("Form Update:", e.target.name, e.target.value); // ✅ Log changes
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("🟡 Submitting form with data:", formData); // ✅ Log full form data
+
     try {
-      const response = await fetch('https://internal-ticketing-system.onrender.com/submit-ticket', {
+      const response = await fetch('https://internal-ticketing-system.onrender.com/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -34,6 +38,7 @@ function App() {
 
       const result = await response.json();
       if (result.status === 'success') {
+        setTicketId(result.ticket_id); // ✅ Capture ticket ID from backend
         confetti({
           particleCount: 150,
           spread: 70,
@@ -59,22 +64,52 @@ function App() {
       </header>
 
       {showMessage && (
-        <div className="fade-message">Ticket submitted!</div>
+        <div className="fade-message">
+          ✅ Ticket #{ticketId} submitted successfully!
+        </div>
       )}
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label>Full Name</label>
-          <input name="full_name" onChange={handleChange} required />
+          <input
+            name="full_name"
+            onChange={handleChange}
+            value={formData.full_name}
+            required
+          />
 
-          <label>Department</label>
-          <input name="department" onChange={handleChange} required />
+<label htmlFor="department">Department</label>
+<select
+  name="department"
+  value={formData.department}
+  onChange={handleChange}
+  required
+>
+  <option value="">-- Select Department --</option>
+  <option value="HR">HR</option>
+  <option value="Tech">Tech</option>
+  <option value="Sales">Sales</option>
+  <option value="Marketing">Marketing</option>
+  <option value="Finance">Finance</option>
+</select>
 
           <label>Email</label>
-          <input name="email" type="email" onChange={handleChange} required />
+          <input
+            name="email"
+            type="email"
+            onChange={handleChange}
+            value={formData.email}
+            required
+          />
 
           <label>Service Type</label>
-          <select name="subject" onChange={handleChange} required>
+          <select
+            name="subject"
+            onChange={handleChange}
+            value={formData.subject}
+            required
+          >
             <option value="">-- Select a Service --</option>
 
             <optgroup label="Applications">
@@ -93,7 +128,7 @@ function App() {
 
             <optgroup label="Access & Group Emails">
               <option value="Sheets Ownership Transfer">Sheets Ownership Transfer</option>
-              <option value="Add to Sales group Email">Add to Sales group Email</option>
+              <option value="Add to Sales Group Email">Add to Sales Group Email</option>
               <option value="Add to Sales Ops Group Email">Add to Sales Ops Group Email</option>
               <option value="Add to Finance Group Email">Add to Finance Group Email</option>
               <option value="Add to OLX Group Email">Add to OLX Group Email</option>
@@ -103,7 +138,13 @@ function App() {
           </select>
 
           <label>Message</label>
-          <textarea name="message" rows="5" onChange={handleChange} required></textarea>
+          <textarea
+            name="message"
+            rows="5"
+            onChange={handleChange}
+            value={formData.message}
+            required
+          ></textarea>
 
           <button type="submit">Submit Ticket</button>
         </form>
